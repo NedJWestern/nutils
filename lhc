@@ -1,0 +1,16 @@
+#/bin/bash
+# Last History Command for a given search string
+
+if [[ $1 == "" ]]; then
+    echo Usage lhc search-term [e]
+
+elif [[ $2 == "" ]]; then
+    history | grep -v history | grep -v lhc | grep "$1"
+
+elif [[ $2 == "e" ]]; then
+    eval $(history | grep -v history | grep -v lhc | grep "$1" | cut -c 8- | tail -n 1)
+
+else
+    echo Invalid flag
+    exit 1
+fi
