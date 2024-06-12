@@ -2,7 +2,7 @@
 # Last History Command for a given search string
 # Install:
 #
-#   curl --create-dirs --output $HOME/.local/bin/lhc https://raw.githubusercontent.com/NedJWestern/nutils/master/lhc
+#   curl --create-dirs --output $HOME/.local/bin/lhc https://raw.githubusercontent.com/NedJWestern/nutils/master/lhc && chmod 775 $HOME/.local/bin/lhc
 
 if [[ $1 == "" ]]; then
     echo Usage: lhc search-term
