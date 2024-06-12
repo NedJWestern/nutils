@@ -4,13 +4,21 @@
 #
 #   curl --create-dirs --output $HOME/.local/bin/lhc https://raw.githubusercontent.com/NedJWestern/nutils/master/lhc && chmod 775 $HOME/.local/bin/lhc
 
+_usage="Usage: lhc search-term [x]
+
+Last History Command (LHC), list commands for a given search-term, execute the last one in the list
+
+subcommands:
+    x   Execute the last command
+"
+
 if [[ $1 == "" ]]; then
-    echo Usage: lhc search-term
+    echo "$_usage"
 
 elif [[ $2 == "" ]]; then
     history | egrep -v 'history|lhc' | grep "$1"
 
-elif [[ $2 == "e" ]]; then
+elif [[ $2 == "x" ]]; then
     eval $(history | egrep -v 'history|lhc' | grep "$1" | cut -c 8- | tail -n 1)
 
 else
