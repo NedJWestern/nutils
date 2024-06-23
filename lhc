@@ -4,22 +4,34 @@
 #
 #   curl --create-dirs --output $HOME/.local/bin/lhc https://raw.githubusercontent.com/NedJWestern/nutils/master/lhc && chmod 775 $HOME/.local/bin/lhc
 
-_usage="Usage: lhc search-term [x]
+_usage=$(cat <<EOF
+Usage: lhc <search-term> cmd n
 
-Last History Command (LHC), list commands for a given search-term, execute the last one in the list
+Last History Command
 
-subcommands:
-    x   Execute the last command
-"
+List commands for a given search-term.
+Execute or copy the nth last one in the list.
+
+Positional arguments:
+    cmd     x to execute, or c to copy to clipboard
+    n       n-th last command, where 1 is the last
+EOF
+)
+
+
 
 if [[ $1 == "" ]]; then
     echo "$_usage"
 
 elif [[ $2 == "" ]]; then
-    history | egrep -v 'history|lhc' | grep "$1"
+    history | egrep -v 'history|lhc' | grep $1
+
+elif [[ $2 == "c" ]]; then
+    history | egrep -v 'history|lhc' | grep $1 | cut -c 8- | tail -n ${3:-1} | head -n 1 | xclip
+    echo Copied to clipboard
 
 elif [[ $2 == "x" ]]; then
-    eval $(history | egrep -v 'history|lhc' | grep "$1" | cut -c 8- | tail -n 1)
+    eval $(history | egrep -v 'history|lhc' | grep $1 | cut -c 8- | tail -n ${3:-1} | head -n 1)
 
 else
     echo Invalid flag
