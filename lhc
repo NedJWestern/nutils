@@ -43,20 +43,20 @@ shopt -s expand_aliases
 source ~/.bashrc
 
 
-if [[ -z $1 || $1 == "-h" || $1 == "--help" ]]; then
+if [[ -z "$1" || "$1" == "-h" || "$1" == "--help" ]]; then
     echo "$_usage"
 
-elif [[ $2 == "" ]]; then
-    history | egrep -v 'history|lhc' | grep $1
+elif [[ "$2" == "" ]]; then
+    history | egrep -v 'history|lhc' | grep "$1"
 
-elif [[ $2 == "c" ]]; then
-    history | egrep -v 'history|lhc' | grep $1 | cut -c 8- | tail -n ${3:-1} | head -n 1 | xclip
+elif [[ "$2" == "c" ]]; then
+    history | egrep -v 'history|lhc' | grep "$1" | cut -c 8- | tail -n ${3:-1} | head -n 1 | xclip
     echo Copied to clipboard
 
-elif [[ $2 == "x" ]]; then
-    eval $(history | egrep -v 'history|lhc' | grep $1 | cut -c 8- | tail -n ${3:-1} | head -n 1)
+elif [[ "$2" == "x" ]]; then
+    eval $(history | egrep -v 'history|lhc' | grep "$1" | cut -c 8- | tail -n ${3:-1} | head -n 1)
 
 else
-    echo Invalid flag: $2
+    echo Invalid flag: "$2"
     exit 1
 fi
