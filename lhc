@@ -1,26 +1,46 @@
 #/bin/bash
-# Last History Command for a given search string
+# Last History Command 
+#
 # Install:
 #
 #   curl --create-dirs --output $HOME/.local/bin/lhc https://raw.githubusercontent.com/NedJWestern/nutils/master/lhc && chmod 775 $HOME/.local/bin/lhc
 
-_usage=$(cat <<EOF
-Usage: lhc <search-term> cmd n
+_usage=$(cat <<'EOF'
+Usage: lhc <search-term> [command] [n]
 
 Last History Command
 
-List commands for a given search-term.
-Execute or copy the nth last one in the list.
+Search command history.
+Execute or copy the n-th last command in the list.
 
 Positional arguments:
-    cmd     x to execute, or c to copy to clipboard
-    n       n-th last command, where 1 is the last
+    command     `x` to execute, or `c` to copy to clipboard
+    n           n-th last command, where 1 is the last. Default is 1.
+
+Examples:
+
+List commands that match `foo`
+
+    $ lhc foo
+    echo foo
+    echo foo bar
+
+Execute the last command
+
+    $ lhc foo x
+    foo bar
+
+Execute the 2nd last command
+
+    $ lhc foo x 2
+    foo
+
 EOF
 )
 
 
 
-if [[ $1 == "" ]]; then
+if [[ -z $1 || $1 == "-h" || $1 == "--help" ]]; then
     echo "$_usage"
 
 elif [[ $2 == "" ]]; then
@@ -34,6 +54,6 @@ elif [[ $2 == "x" ]]; then
     eval $(history | egrep -v 'history|lhc' | grep $1 | cut -c 8- | tail -n ${3:-1} | head -n 1)
 
 else
-    echo Invalid flag
+    echo Invalid flag: $2
     exit 1
 fi
