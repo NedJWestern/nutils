@@ -38,6 +38,9 @@ Execute the 2nd last command
 EOF
 )
 
+shopt -s expand_aliases
+# this is not always a good idea
+source ~/.bashrc
 
 
 if [[ -z $1 || $1 == "-h" || $1 == "--help" ]]; then
