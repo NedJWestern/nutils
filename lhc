@@ -4,18 +4,26 @@
 # Install:
 #
 #   curl --create-dirs --output $HOME/.local/bin/lhc https://raw.githubusercontent.com/NedJWestern/nutils/master/lhc && chmod 775 $HOME/.local/bin/lhc
+#
+# TODO:
+#   - try getopt
 
 _usage=$(cat <<'EOF'
-Usage: lhc <search-term> [command] [n]
-
 Last History Command
 
 Search command history.
 Execute or copy the n-th last command in the list.
 
-Positional arguments:
+Usage: lhc <search-term> [command] [n]
+
+Commands:
     command     `x` to execute, or `c` to copy to clipboard
     n           n-th last command, where 1 is the last. Default is 1.
+
+Options:
+    -h, --help      Print help
+    -v, --version   Print the version
+
 
 Examples:
 
@@ -38,6 +46,7 @@ Execute the 2nd last command
 EOF
 )
 
+VERSION="1.0.1"
 shopt -s expand_aliases
 # this is not always a good idea
 source ~/.bashrc
@@ -45,6 +54,9 @@ source ~/.bashrc
 
 if [[ -z "$1" || "$1" == "-h" || "$1" == "--help" ]]; then
     echo "$_usage"
+
+elif [[ "$1" == "-v" || "$1" == "--version" ]]; then
+    echo Version: $VERSION
 
 elif [[ "$2" == "" ]]; then
     history | egrep -v 'history|lhc' | grep "$1"
